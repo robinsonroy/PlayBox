@@ -8,11 +8,23 @@ import java.io.*;
 import java.net.*;
 
 class TCPServer implements Runnable{
+
+    private String clientSentence;
+
     protected volatile boolean running = true;
     private Thread thread;
 
+
     public TCPServer(){
         thread = new Thread(this);
+    }
+
+    public String getClientSentence() {
+        return clientSentence;
+    }
+
+    public void setClientSentence(String clientSentence) {
+        this.clientSentence = clientSentence;
     }
 
     public void runServer(){
@@ -26,7 +38,6 @@ class TCPServer implements Runnable{
     public void run() {
         System.out.println("Server TCP lance");
 
-        String clientSentence;
         String capitalizedSentence;
         ServerSocket welcomeSocket = null;
 

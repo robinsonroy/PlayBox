@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Main
 {
+
     public static void main(String[] args)
     {
         SoundJLayer soundToPlay = new SoundJLayer("/Users/Robinson/Desktop/CHARLIE.mp3");
@@ -20,15 +21,16 @@ public class Main
 
         TCPClient client = new TCPClient();
 
-        System.out.println("Hello");
         TCPServer server = new TCPServer();
         server.runServer();
-        System.out.println("Hello&");
+
+        CheckPlayPause checkPlayPause = new CheckPlayPause(server, soundToPlay);
+        checkPlayPause.runCheck();
 
         boolean finish = false;
         while (!finish)
         {
-            System.out.print("1 : Play/Pause , 2 : Message TCP : ");
+            System.out.println("1 : Play/Pause , 2 : Message TCP1");
             Scanner sc = new Scanner(System.in);
             String choice = sc.nextLine();
 
@@ -39,12 +41,14 @@ public class Main
                 case "2" :
                     client.sendMessage();
                     break;
+                case "3" :
+                    System.out.println("Serveur sentence : " +  server.getClientSentence());
+                    break;
                 default:
                     System.out.println("Entrée non reconnu");
                     break;
             }
-
-
         }
+
     }
 }
