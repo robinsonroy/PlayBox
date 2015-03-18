@@ -16,7 +16,6 @@ public class Main
                 (
                         new InputStreamReader(System.in)
                 );
-
         soundToPlay.play();
 
         TCPClient client = new TCPClient();
