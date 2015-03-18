@@ -10,7 +10,7 @@ public class Main
 
     public static void main(String[] args)
     {
-        SoundJLayer soundToPlay = new SoundJLayer("/home/pi/Desktop/PlayBox/Music/Chrisophe\\ Mae/Sous\\ Le\\ Charme.mp3");
+        SoundJLayer soundToPlay = new SoundJLayer("/home/pi/Desktop/PlayBox/Music/Chrisophe Mae/Sous Le Charme.mp3");
 
         BufferedReader consoleReader = new BufferedReader
                 (
