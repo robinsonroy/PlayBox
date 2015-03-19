@@ -5,6 +5,7 @@ package Controller;
 
 public class SoundJLayer extends JLayerPlayerPausable.PlaybackListener implements Runnable
 {
+    protected volatile boolean running = true;
     private String filePath;
     private JLayerPlayerPausable player;
     private Thread playerThread;
@@ -24,7 +25,7 @@ public class SoundJLayer extends JLayerPlayerPausable.PlaybackListener implement
 
     public void pauseToggle()
     {
-        if (this.player.isPaused == true)
+        if (this.player.isPaused)
         {
             this.play();
         }
@@ -64,6 +65,12 @@ public class SoundJLayer extends JLayerPlayerPausable.PlaybackListener implement
         }
     }
 
+    public boolean stop(){
+        player.stop();
+        running = false;
+        return running;
+    }
+
     // PlaybackListener members
 
     public void playbackStarted(JLayerPlayerPausable.PlaybackEvent playbackEvent)
@@ -80,13 +87,12 @@ public class SoundJLayer extends JLayerPlayerPausable.PlaybackListener implement
 
     public void run()
     {
-        try
-        {
-            this.player.resume();
-        }
-        catch (javazoom.jl.decoder.JavaLayerException ex)
-        {
-            ex.printStackTrace();
+        while (running) {
+            try {
+                this.player.resume();
+            } catch (javazoom.jl.decoder.JavaLayerException ex) {
+                ex.printStackTrace();
+            }
         }
 
     }

@@ -90,7 +90,7 @@ public class JLayerPlayerPausable {
 
         while
                 (
-                shouldContinueReadingFrames == true
+                shouldContinueReadingFrames
                         &&
                         this.frameIndexCurrent < frameIndexStart - correctionFactorInFrames
                 )
@@ -99,7 +99,7 @@ public class JLayerPlayerPausable {
             this.frameIndexCurrent++;
         }
 
-        if (this.listener != null)
+        if (this.listener != null && this.audioDevice != null)
         {
             this.listener.playbackStarted
                     (
@@ -119,12 +119,12 @@ public class JLayerPlayerPausable {
 
         while
                 (
-                shouldContinueReadingFrames == true
+                shouldContinueReadingFrames
                         &&
                         this.frameIndexCurrent < frameIndexFinal
                 )
         {
-            if (this.isPaused == true)
+            if (this.isPaused)
             {
                 shouldContinueReadingFrames = false;
                 try { Thread.sleep(1); } catch (Exception ex) {}
@@ -143,12 +143,12 @@ public class JLayerPlayerPausable {
 
             synchronized (this)
             {
-                this.isComplete = (this.isClosed == false);
+                this.isComplete = (!this.isClosed);
                 this.close();
             }
 
             // report to listener
-            if (this.listener != null)
+            if (this.listener != null && this.audioDevice != null)
             {
                 this.listener.playbackFinished
                         (
@@ -247,16 +247,18 @@ public class JLayerPlayerPausable {
 
     public void stop()
     {
-        this.listener.playbackFinished
-                (
-                        new PlaybackEvent
-                                (
-                                        this,
-                                        PlaybackEvent.EventType.Instances.Stopped,
-                                        this.audioDevice.getPosition()
-                                )
-                );
-
+        if(this.listener != null && this.audioDevice != null)
+        {
+            this.listener.playbackFinished
+                    (
+                            new PlaybackEvent
+                                    (
+                                            this,
+                                            PlaybackEvent.EventType.Instances.Stopped,
+                                            this.audioDevice.getPosition()
+                                    )
+                    );
+        }
         this.close();
     }
 

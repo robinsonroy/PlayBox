@@ -49,9 +49,11 @@ class TCPServer implements Runnable{
                         new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                 DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
                 clientSentence = inFromClient.readLine();
-                System.out.println("Received: " + clientSentence);
-                capitalizedSentence = clientSentence.toUpperCase() + '\n';
-                outToClient.writeBytes(capitalizedSentence);
+                if(clientSentence != null){
+                    System.out.println("Received: " + clientSentence);
+                    capitalizedSentence = clientSentence.toUpperCase() + '\n';
+                    outToClient.writeBytes(capitalizedSentence);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
