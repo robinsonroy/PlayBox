@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         MusicControl musicControl = new MusicControl();
-        //"/home/pi/Desktop/PlayBox/Music/David_Guetta/Titanium.mp3"
+        //"1:/home/pi/Desktop/PlayBox/Music/David_Guetta/Titanium.mp3"
         //TCPClient client = new TCPClient();
 
         TCPServer server = new TCPServer();

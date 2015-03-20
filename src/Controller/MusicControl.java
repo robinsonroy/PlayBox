@@ -23,7 +23,7 @@ public class MusicControl {
 
     public void playMusic(){
         if(soundToPlay != null) {
-            soundToPlay.stop();
+            soundToPlay.stopMusic();
         }
         soundToPlay = new SoundJLayer(this.url);
         soundToPlay.play();

@@ -17,10 +17,12 @@ public class SoundJLayer extends JLayerPlayerPausable.PlaybackListener implement
 
     public void pause()
     {
-        this.player.pause();
+        if(player != null) {
+            this.player.pause();
 
-        this.playerThread.stop();
-        this.playerThread = null;
+            running = false;
+            this.playerThread = null;
+        }
     }
 
     public void pauseToggle()
@@ -52,7 +54,7 @@ public class SoundJLayer extends JLayerPlayerPausable.PlaybackListener implement
         try
         {
             String urlAsString = "file:///"  + this.filePath;
-
+            running = true;
             this.player = new JLayerPlayerPausable
                     (
                             new java.net.URL(urlAsString),
@@ -65,7 +67,7 @@ public class SoundJLayer extends JLayerPlayerPausable.PlaybackListener implement
         }
     }
 
-    public boolean stop(){
+    public boolean stopMusic(){
         player.stop();
         running = false;
         return running;
