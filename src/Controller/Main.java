@@ -10,19 +10,13 @@ import java.util.regex.Pattern;
 public class Main {
 
     public static void main(String[] args) {
-        MusicControl musicControl = new MusicControl();
+        JavaSoundController javaSound = null;
         //"1:/home/pi/Desktop/PlayBox/Music/David_Guetta/Titanium.mp3"
         //TCPClient client = new TCPClient();
 
         TCPServer server = new TCPServer();
 
         server.runServer();
-
-        //musicControl.setUrl("/Users/Robinson/Desktop/CHARLIE.mp3");
-        //musicControl.playMusic();
-
-        //CheckMessageFromSmartBox checkPlayPause = new CheckMessageFromSmartBox(server);
-        //checkPlayPause.runCheck();
 
         boolean finish = false;
         while (!finish) {
@@ -38,20 +32,35 @@ public class Main {
                 if (server.getClientSentence() != null) {
                     matcher = pattern.matcher(server.getClientSentence());
                     if (matcher.find()) {
-                        if (matcher.group(1).equals("1")) {
-                            String url = matcher.group(2);
-                            File f = new File(url);
-                            if(f.exists()) {
-                                musicControl.setUrl(url);
-                                musicControl.playMusic();
-                            }
-                            server.setClientSentence(null);
-                        } else if (matcher.group(1).equals("2")) {
-                            musicControl.playPause();
-                            server.setClientSentence(null);
+                        switch (matcher.group(1)) {
+                            case "1":
+
+                                String url = matcher.group(2);
+                                File f = new File(url);
+                                System.out.println("Load Url ... ");
+                                if (f.exists()) {
+
+                                    System.out.println("Music Playing ...");
+                                    if (javaSound != null)
+                                        javaSound.stop();
+
+                                    javaSound = new JavaSoundController(url);
+                                    javaSound.play_pause();
+
+                                } else System.out.println("Bad url!");
+                                break;
+
+                            case "2":
+                                System.out.println("Music play pause");
+                                if (javaSound != null)
+                                    javaSound.play_pause();
+                                break;
+                            default:
+                                System.out.println("Bad request");
+                                break;
                         }
+                        server.setClientSentence(null);
                     }
-                    server.setClientSentence(null);
                 }
             }
         }
